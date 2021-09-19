@@ -11,6 +11,7 @@
     "@snowpack/plugin-webpack": "^3.0.0",
     "autoprefixer": "^10.3.1",
     "cssnano": "^5.0.7",
+    "p5": "^1.4.0",
     "postcss": "^8.3.6",
     "sass": "^1.41.1",
     "snowpack": "^3.3.7",
@@ -20,10 +21,13 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
     "firebase": "^8.9.0",
+    "p5-svelte": "^2.2.2",
+    "paper-css": "^0.4.1",
     "redux": "^4.1.1",
     "rxfire": "^4.0.0",
     "rxjs": "^7.3.0",
-    "svelte-router-spa": "^6.0.2"
+    "svelte-router-spa": "^6.0.2",
+    "sveltefire": "^0.1.5"
   },
   "browserslist": ">0.75%, not ie 11, not UCAndroid >0, not OperaMini all"
 }

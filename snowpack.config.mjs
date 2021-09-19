@@ -32,10 +32,7 @@ export default {
     knownEntrypoints: [
       'svelte',
       'svelte/store',
-      'rxjs/internal/Observable',
-      'rxjs/internal/operators/reduce',
-      'rxjs/internal/operators/map',
-      'rxjs/internal/operators/filter'
+      'rxjs/internal/Observable'
     ]
   },
   devOptions: {

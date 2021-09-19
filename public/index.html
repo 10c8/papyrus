@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Svelte SPA</title>
+    <title>Papyrus</title>
 
 	  <link rel="manifest" href="/manifest.json" />
     <meta name="description" content="Svelte SPA" />
@@ -12,7 +12,7 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="Svelte SPA" />
+    <meta name="apple-mobile-web-app-title" content="Papyrus" />
     <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -20,8 +20,8 @@
 
     <script
       type="module"
-      src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"
-    ></script>
+      src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall">
+    </script>
   </head>
   <body>
     <noscript>
@@ -29,6 +29,13 @@
         JavaScript is required to use this application. Please enable it.
       </div>
     </noscript>
+
+    <script>
+      // Fix HMR in Gitpod
+      if (window.location.href.indexOf('gitpod.io') !== -1) {
+        window.HMR_WEBSOCKET_URL = `wss://${window.location.hostname}`;
+      }
+    </script>
 
     <script type="module" src="/dist/index.js"></script>
     <script>

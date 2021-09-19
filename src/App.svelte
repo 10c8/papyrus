@@ -1,23 +1,29 @@
 <script>
-  import Router, { location, replace } from 'svelte-spa-router';
+  import firebase from 'firebase/app';
+  import 'firebase/firestore';
+  import { FirebaseApp } from 'sveltefire';
+  import { Router } from 'svelte-router-spa';
 
-  import Home from './routes/Home.svelte';
-  import NotFound from './routes/NotFound.svelte';
+  import './tailwind.css';
+  import { routes } from './routes';
 
-  const routes = {
-    '/': Home,
-
-    // 404
-    '*': NotFound
+  const firebaseConfig = {
+    apiKey: 'AIzaSyBRTTQP-9pupqzjFdCbLZicrMOajuD6kWY',
+    authDomain: 'papyrus-c397c.firebaseapp.com',
+    projectId: 'papyrus-c397c',
+    storageBucket: 'papyrus-c397c.appspot.com',
+    messagingSenderId: '98511121484',
+    appId: '1:98511121484:web:44066f1038bdf9bc8c58e9'
   };
 
-  const path = window.location.pathname.replace(/^\//, '');
-
-  if (window.location.hash === '') {
-    window.location.href = `/#/${path}`;
+  // Initialize Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app();
   }
 </script>
 
-<main>
+<FirebaseApp {firebase}>
   <Router {routes} />
-</main>
+</FirebaseApp>
