@@ -22,6 +22,8 @@
   $: if ($doc) {
     marks = $doc.marks;
     values = $doc.values;
+
+    // db.collection('skeletons').doc('big-head').set($doc);
   }
 
   const syncData = () => {
@@ -199,7 +201,7 @@
           </Doc>
         </div>
         <div class="half image">
-          <SyncedCanvas for={currentRoute.namedParams.id} />
+          <SyncedCanvas id={currentRoute.namedParams.id} />
           <StorageRef
             path={`images/skeletons/${currentRoute.namedParams.id}.jpg`}
             let:downloadURL
@@ -281,10 +283,10 @@
       }
       
       .image {
-        @apply flex justify-center items-center;
+        @apply relative flex justify-center items-center p-12;
 
         .art {
-          @apply w-auto h-full;
+          @apply w-full h-auto;
         }
       }
     }
