@@ -12,7 +12,9 @@
   export let currentRoute;
 
   const db = firebase.firestore();
-  const ref = db.collection('skeletons').doc(currentRoute.namedParams.id);
+  const ref = db
+    .collection('skeletons')
+    .doc(currentRoute.namedParams.id);
   const doc = docData(ref);
 
   let canEdit = true;
@@ -22,13 +24,12 @@
   $: if ($doc) {
     marks = $doc.marks;
     values = $doc.values;
-
-    // db.collection('skeletons').doc('big-head').set($doc);
   }
 
   const syncData = () => {
     canEdit = false;
-    ref.update({ values }).then(syncMarks);
+    ref.update({ values })
+      .then(syncMarks);
   };
 
   const syncMarks = async () => {
@@ -41,6 +42,7 @@
     marks[6] = values[4] !== '';
 
     await ref.update({ marks });
+
     canEdit = true;
   };
 
@@ -52,17 +54,21 @@
 
 {#if doc}
   <div class="p-sheet">
-    <div class="A4">
-      <section class="sheet landscape px-8 py-6">
-        <div class="half text">
+    <div class="w-full h-full A4">
+      <section class="flex gap-4 px-8 py-6 landscape">
+        <div class="w-1/2 text">
           <Doc
             path={`skeletons/${currentRoute.namedParams.id}`}
             let:data={doc}
           >
-            <h1 class="title">{doc.title}</h1>
-            <p class="description">{doc.description}</p>
-            <form class="form mt-4" on:submit|preventDefault={syncData}>
-              <h2 class="form__title">Questões</h2>
+            <h1 class="mb-1 uppercase font-extrabold text-[42px]">
+              {doc.title}
+            </h1>
+            <p class="font-extrabold text-[13px] italic">
+              {doc.description}
+            </p>
+            <form class="mt-4" on:submit|preventDefault={syncData}>
+              <h2 class="uppercase font-extrabold text-[16px]">Questões</h2>
 
               <div class="form__section">
                 <h3 class="form__section-title">
@@ -82,7 +88,7 @@
                 </div>
               </div>
 
-              <div class="form__section mt-4">
+              <div class="mt-4 form__section">
                 <h2 class="form__section-title">
                   Responda conforme o tempo passa:
                 </h2>
@@ -181,7 +187,7 @@
                 </div>
               </div>
 
-              <div class="form__section mt-4">
+              <div class="mt-4 form__section">
                 <h3 class="form__title">Memórias</h3>
                 <p>
                   Aqui estão alguns nomes de pessoas e coisas que {doc.title}
@@ -190,7 +196,7 @@
                 <p class="italic">{doc.memories}</p>
               </div>
 
-              <div class="form__section mt-2">
+              <div class="mt-2 form__section">
                 <h3 class="form__title">Observações</h3>
                 <p>Aqui estão algumas coisas que podem ser vistas na tumba:</p>
                 <p class="italic">{doc.observations}</p>
@@ -200,13 +206,13 @@
             </form>
           </Doc>
         </div>
-        <div class="half image">
+        <div class="relative flex items-center justify-center w-1/2 p-12">
           <SyncedCanvas id={currentRoute.namedParams.id} />
           <StorageRef
             path={`images/skeletons/${currentRoute.namedParams.id}.jpg`}
             let:downloadURL
           >
-            <img class="art" src="{downloadURL}" alt="" />
+            <img class="w-full h-auto" src="{downloadURL}" alt="" />
           </StorageRef>
         </div>
       </section>
@@ -216,103 +222,57 @@
   <h1>Carregando...</h1>
 {/if}
 
-<style lang="scss" scoped>
+<style lang="postcss" scoped>
   @page {
     size: A4 landscape;
   }
-  
-  .p-sheet {
-    .A4 {
-      @apply w-full h-full;
 
-      .sheet {
-        @apply flex gap-4;
-      }
+  .text {
+    font-family: 'Vollkorn', serif;
+  }
 
-      .half {
-        @apply w-1/2;
-      }
+  .form__section-title {
+    @apply font-extrabold italic;
+    font-size: 12px;
+    line-height: 1.2;
+  }
 
-      .text {
-        font-family: 'Vollkorn', serif;
+  .form__section p {
+    @apply font-extrabold;
+    font-size: 14px;
+    line-height: 1.2;
+  }
 
-        .title {
-          @apply mb-1 uppercase;
-          font-weight: 700;
-          font-size: 42px;
-          line-height: 1;
-        }
+  .form__section p.italic {
+    @apply mt-1 italic;
+    font-size: 15px;
+    line-height: 1.3;
+  }
 
-        .description {
-          font-weight: 700;
-          font-size: 13px;
-          font-style: italic;
-          line-height: 1.2;
-        }
+  .form__section .form__title {
+    @apply uppercase font-extrabold;
+    font-size: 16px;
+  }
 
-        .form {
-          &__title {
-            @apply uppercase;
-            font-weight: 700;
-            font-size: 16px;
-          }
+  .question {
+    @apply flex flex-col mb-2;
+  }
 
-          &__section {
-            &-title {
-              font-weight: 700;
-              font-size: 12px;
-              font-style: italic;
-              line-height: 1.2;
-            }
+  .question input[type="text"] {
+    @apply mt-1 px-2 py-1 border-default border-gray-500 rounded-lg;
+    width: 500px;
+  }
 
-            p {
-              font-weight: 700;
-              font-size: 14px;
-              line-height: 1.2;
-              
-              &.italic {
-                @apply mt-1;
-                font-weight: 400;
-                font-size: 15px;
-                font-style: italic;
-                line-height: 1.3;
-              }
-            }
-          }
-        }
-      }
-      
-      .image {
-        @apply relative flex justify-center items-center p-12;
+  .question__header {
+    @apply flex items-start gap-2 mt-2;
+  }
 
-        .art {
-          @apply w-full h-auto;
-        }
-      }
-    }
+  .question__header input {
+    margin-top: 1px;
+  }
 
-    .question {
-      @apply flex flex-col mb-2;
-
-      &__header {
-        @apply flex items-start gap-2 mt-2;
-
-        input {
-          margin-top: 1px;
-        }
-        
-        label {
-          font-size: 13px;
-          line-height: 1.3;
-        }
-      }
-
-      input[type="text"] {
-        @apply mt-1 px-2;
-        border: 1px solid #a3a3a3;
-        width: 500px;
-        height: 20px;
-      }
-    }
+  .question__header label {
+    font-size: 13px;
+    line-height: 1.3;
   }
 </style>

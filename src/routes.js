@@ -6,11 +6,11 @@ export const routes = [
   {
     name: '/',
     layout: MainLayout,
-    component: Home
+    component: Home,
   },
   {
     name: '/:id',
     layout: MainLayout,
-    component: Sheet
-  }
+    component: Sheet,
+  },
 ];

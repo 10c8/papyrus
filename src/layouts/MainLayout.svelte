@@ -4,12 +4,9 @@
   export let currentRoute;
 </script>
 
-<main class="layout">
+<main class="min-h-screen">
   <Route {currentRoute} />
 </main>
 
-<style lang="scss" scoped>
-  .layout {
-    min-height: 100vh;
-  }
+<style lang="postcss" scoped>
 </style>
