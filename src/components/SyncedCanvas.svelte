@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import firebase from 'firebase/app';
   import 'firebase/firestore';
   import 'firebase/storage';
@@ -26,9 +27,14 @@
     let currentPath = [];
 
     p5.setup = () => {
+      // TODO: Make canvas responsive
       canvas = p5.createCanvas(521, 741);
+
       canvas.mousePressed(startPath);
+      canvas.touchStarted(startPath);
+
       canvas.mouseReleased(endPath);
+      canvas.touchEnded(endPath);
     };
 
     p5.draw = () => {
@@ -107,6 +113,18 @@
 
     newDrawing = [];
   };
+
+  onMount(() => {
+    // Prevent scrolling when drawing on the canvas on mobile
+    document.body.addEventListener('touchmove', (e) => {
+      if (!isEditing)
+        return;
+
+      e.preventDefault();
+    }, {
+      passive: false,
+    });
+  });
 </script>
 
 <div class="absolute w-full h-full">

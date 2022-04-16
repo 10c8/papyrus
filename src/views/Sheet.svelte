@@ -54,9 +54,9 @@
 
 {#if doc}
   <div class="p-sheet">
-    <div class="w-full h-full A4">
-      <section class="flex gap-4 px-8 py-6 landscape">
-        <div class="w-1/2 text">
+    <div class="w-full h-full overflow-hidden A4">
+      <section class="flex flex-col gap-4 p-6 landscape md:(flex-row px-8)">
+        <div class="w-full text md:w-1/2">
           <Doc
             path={`skeletons/${currentRoute.namedParams.id}`}
             let:data={doc}
@@ -83,7 +83,12 @@
                       on:change={syncMarks}
                       disabled={!canEdit}
                     />
-                    <label for="q0">{doc.special}</label>
+                    <label
+                      for="q0"
+                      on:click={() => { marks[0] = !marks[0]; syncMarks(); }}
+                    >
+                      {doc.special}
+                    </label>
                   </div>
                 </div>
               </div>
@@ -144,7 +149,12 @@
                       on:change={syncMarks}
                       disabled={!canEdit}
                     />
-                    <label for="q4">{doc.first}</label>
+                    <label
+                      for="q4"
+                      on:click={() => { marks[4] = !marks[4]; syncMarks(); }}
+                    >
+                      {doc.first}
+                    </label>
                   </div>
                 </div>
 
@@ -206,7 +216,7 @@
             </form>
           </Doc>
         </div>
-        <div class="relative flex items-center justify-center w-1/2 p-12">
+        <div class="relative flex items-center justify-center w-full p-12 md:1/2">
           <SyncedCanvas id={currentRoute.namedParams.id} />
           <StorageRef
             path={`images/skeletons/${currentRoute.namedParams.id}.jpg`}
@@ -258,9 +268,13 @@
     @apply flex flex-col mb-2;
   }
 
+  .question input[type="checkbox"] {
+    @apply flex-shrink-0;
+  }
+
   .question input[type="text"] {
-    @apply mt-1 px-2 py-1 border-default border-gray-500 rounded-lg;
-    width: 500px;
+    @apply w-full mt-1 px-2 py-1 border-default border-gray-500 rounded-lg;
+    /* width: 500px; */
   }
 
   .question__header {
